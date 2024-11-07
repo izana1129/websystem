@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image and Background Change</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; /* Change to column layout */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('image/1.jpg'); /* Initial background */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            transition: background-image 0.5s ease; /* Smooth transition for background */
+            color: white; /* Set default text color to white */
+        }
+
+        .container {
+            text-align: center;
+            animation: fadeIn 1s ease; /* Animation for container */
+        }
+
+        .welcome {
+            font-size: 24px; /* Font size for welcome text */
+            margin-bottom: 20px; /* Space below the welcome text */
+        }
+
+        .clickable {
+            cursor: pointer;
+            width: 500px; /* Adjusted size for larger GIF */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px; /* Rounded corners for the image */
+            transition: transform 0.3s, opacity 0.5s; /* Animation on hover and fade */
+        }
+
+        .clickable:hover {
+            transform: scale(1.05); /* Scale image on hover */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade {
+            opacity: 0; /* Start with the image hidden */
+            animation: fadeIn 0.5s forwards; /* Fade in effect */
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff7e5f;
+            color: white; /* Button text color */
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #feb47b; /* Change color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="welcome">Welcome to MW3 World</h2> <!-- Welcome text -->
+        <img id="changeImage" src="image/1.jpg" alt="Image" class="clickable fade" />
+        <h1 id="text">Click the button to change the image and background!</h1>
+        <button id="changeButton">Click Here</button>
+    </div>
+
+    <script>
+        const image = document.getElementById('changeImage');
+        const text = document.getElementById('text');
+        const body = document.body;
+        const button = document.getElementById('changeButton');
+
+        let isOriginal = true;
+
+        button.addEventListener('click', () => {
+            // Add fade-out class to image before changing
+            image.classList.remove('fade');
+            void image.offsetWidth; // Trigger reflow
+            image.classList.add('fade');
+
+            // Change image source and background after a short delay to allow for fading
+            setTimeout(() => {
+                if (isOriginal) {
+                    image.src = 'image/8.gif'; // Change to your second GIF
+                    body.style.backgroundImage = "url('image/7.gif')"; // Change to your second background
+                    text.textContent = 'You changed the image and background!';
+                } else {
+                    image.src = 'image/3.gif'; // Change back to original GIF
+                    body.style.backgroundImage = "url('image/6.gif')"; // Change back to original background
+                    text.textContent = 'Click the button to change the image and background!';
+                }
+                isOriginal = !isOriginal;
+            }, 500); // Match this delay to the CSS fade-in duration
+        });
+
+        // Initial fade-in on page load
+        image.classList.add('fade');
+    </script>
+</body>
+</html>
